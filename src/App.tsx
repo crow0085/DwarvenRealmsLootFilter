@@ -2,6 +2,7 @@ import "./App.css";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { STAT_REGISTRY } from "./statRegistry";
 
 export interface UnrealSaveRootPlayer {
   root: {
@@ -91,7 +92,8 @@ interface Stat {
 function App() {
   const [stashes, setStashes] = useState([]);
   const [inventory, setInventory] = useState<InventoryValue[]>([]);
-  const [hoveredItem, setHoveredItem] = useState<InventoryValue | null>();
+  const [filterAmnt, setFilterAmnt] = useState("1");
+  const [statFilter, setStatFilter] = useState<string[]>([]);
 
   useEffect(() => {
     if (
@@ -141,67 +143,23 @@ function App() {
     console.log(json);
   }
 
-  const affixes = [
-    "Max Health",
-    "Max Energy",
-    "Health Regeneration",
-    "Energy Regeneration",
-    "Critical Chance",
-    "Critical Damage Bonus",
-    "Lifesteal Chance",
-    "Lifesteal Bonus",
-    "Lifesteal",
-    "Arcane Damage Bonus",
-    "Lightning Damage Bonus",
-    "Fire Damage Bonus",
-    "boss Damage",
-    "Strength",
-    "Strength Bonus",
-    "Agility",
-    "Agility Bonus",
-    "Stamina",
-    "Stamina Bonus",
-    "Luck",
-    "Luck Bonus",
-    "Endurance",
-    "Endurance Bonus",
-    "Dexterity",
-    "Dexterity Bonus",
-    "Wisdom",
-    "Wisdom Bonus",
+  const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
+  const handleStatFilterChange = (e: any) => {
+    let curStatFilter = [...statFilter];
 
-    "Sword Damage",
-    "Sword Critical Damage",
-    "Sword Critical Chance",
+    type StatKey = keyof typeof STAT_REGISTRY;
+    let stats = STAT_REGISTRY[e.target.id as StatKey];
+    stats.patterns.map((p) => {
+      if (curStatFilter.includes(p)) {
+        curStatFilter = curStatFilter.filter((c) => c !== p);
+      } else {
+        curStatFilter.push(p);
+      }
+    });
 
-    "Archery Damage",
-    "Archery Critical Damage",
-    "Archery Critical Chance",
-
-    "Axe Damage",
-    "Axe Critical Damage",
-    "Axe Critical Chance",
-
-    "Maul Damage",
-    "Maul Critical Damage",
-    "Maul Critical Chance",
-
-    "Spear Damage",
-    "Spear Critical Damage",
-    "Spear Critical Chance",
-
-    "Magery Damage",
-    "Magery Critical Damage",
-    "Magery Critical Chance",
-
-    "Fist Damage",
-    "Fist Critical Damage",
-    "Fist Critical Chance",
-
-    "Scythe Damage",
-    "Scythe Critical Damage",
-    "Scythe Critical Chance",
-  ];
+    console.log(curStatFilter);
+    setStatFilter(curStatFilter);
+  };
 
   return (
     <div className="min-h-screen bg-gray-800 p-5!">
@@ -216,31 +174,72 @@ function App() {
 
       {inventory && inventory.length > 0 && (
         <div>
-          <div>
+          <div className="flex gap-x-5">
             <p className="text-white">Inventory Loaded</p>
+            {/* Amount of stats to check for*/}
+            <div className="text-white flex gap-x-3">
+              <p>Stats:</p>
+              <label>
+                <input
+                  type="radio"
+                  name="amount"
+                  value="1"
+                  checked={filterAmnt === "1"}
+                  onChange={handleFilterAmnt}
+                />{" "}
+                1
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="amount"
+                  value="2"
+                  checked={filterAmnt === "2"}
+                  onChange={handleFilterAmnt}
+                />{" "}
+                2
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="amount"
+                  value="3"
+                  checked={filterAmnt === "3"}
+                  onChange={handleFilterAmnt}
+                />{" "}
+                3
+              </label>
+            </div>
           </div>
+          {/* inventory tab */}
           <div className="flex gap-40">
             <StashTab
               InventoryValue={inventory}
-              setHoveredItem={setHoveredItem}
+              statFilter={statFilter}
+              filterAmnt={parseInt(filterAmnt, 10)}
             />
+
+            {/* Stat list filter */}
             <div className="text-white p-5">
               <div className="grid grid-flow-col grid-rows-25 gap-x-8 gap-y-3">
-                {affixes.map((item, index) => (
-                  <div key={index} className="flex items-center gap-x-2">
-                    <input
-                      type="checkbox"
-                      id={`stat-${index}`}
-                      className="rounded accent-blue-500"
-                    />
-                    <label
-                      htmlFor={`stat-${index}`}
-                      className="cursor-pointer select-none whitespace-nowrap"
-                    >
-                      {item}
-                    </label>
-                  </div>
-                ))}
+                {Object.values(STAT_REGISTRY)
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((stat) => (
+                    <div key={stat.id} className="flex items-center gap-x-2">
+                      <input
+                        type="checkbox"
+                        id={`${stat.id}`}
+                        className="rounded accent-blue-500"
+                        onChange={handleStatFilterChange}
+                      />
+                      <label
+                        htmlFor={`${stat.id}`}
+                        className="cursor-pointer select-none whitespace-nowrap"
+                      >
+                        {stat.name}
+                      </label>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -252,7 +251,8 @@ function App() {
 
 interface StashTabProps {
   InventoryValue: InventoryValue[];
-  setHoveredItem: (item: InventoryValue | null) => void;
+  statFilter: string[];
+  filterAmnt: number;
 }
 function StashTab(props: StashTabProps) {
   return (
@@ -265,7 +265,8 @@ function StashTab(props: StashTabProps) {
               key={index}
               InventoryValue={item}
               Index={index}
-              setHoveredItem={props.setHoveredItem}
+              statFilter={props.statFilter}
+              filterAmnt={props.filterAmnt}
             />
           );
         })}
@@ -277,26 +278,79 @@ function StashTab(props: StashTabProps) {
 interface ItemSlotProps {
   InventoryValue: InventoryValue;
   Index: number;
-  setHoveredItem: (item: InventoryValue | null) => void;
+  statFilter: string[];
+  filterAmnt: number;
 }
 function ItemSlot(props: ItemSlotProps) {
-  const handleMouseEnter = (event: any) => {
-    props.setHoveredItem(props.InventoryValue);
-  };
+  const [matched, setMatched] = useState(0);
 
-  const handleMouseLeave = (event: any) => {
-    props.setHoveredItem(null);
-  };
+  useEffect(() => {
+    let count = 0;
+
+    // stat pool 1
+    let pool =
+      props.InventoryValue.Struct
+        .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
+        .Pool1_5_5BC4C3914F78865C44F3959F84179108_0.Array.Struct.value;
+    for (const stat of pool) {
+      // console.log(
+      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 1 stat: ${stat.Struct.RowName_0.Name}`,
+      // );
+      if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
+        console.log("loop 1");
+        count += 1;
+        break;
+      }
+    }
+
+    // stat pool 2
+    pool =
+      props.InventoryValue.Struct
+        .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
+        .Pool2_7_C9D5DBAD46BD46143554DE8BA77CF417_0.Array.Struct.value;
+    for (const stat of pool) {
+      // console.log(
+      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 2 stat: ${stat.Struct.RowName_0.Name}`,
+      // );
+      if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
+        console.log("loop 2");
+        count += 1;
+        break;
+      }
+    }
+
+    // stat pool 3
+    pool =
+      props.InventoryValue.Struct
+        .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
+        .Pool3_9_03E0D74D4259F96DFDD896BB62805708_0.Array.Struct.value;
+    for (const stat of pool) {
+      // console.log(
+      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 3 stat: ${stat.Struct.RowName_0.Name}`,
+      // );
+      if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
+        console.log("loop 3");
+        count += 1;
+        break;
+      }
+    }
+
+    console.log(count);
+    setMatched(count);
+  }, [props.statFilter, props.filterAmnt]);
 
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div>
       <div className="relative h-12 w-12">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="src/UI/normal-bg.PNG"
+          src={
+            matched >= props.filterAmnt
+              ? "src/UI/pet-bg.PNG"
+              : "src/UI/normal-bg.PNG"
+          }
           alt="background"
         />
-
         <img
           className="absolute inset-0 h-full w-full object-cover"
           src="src/UI/T_UI_Button_Frame_002.PNG"
