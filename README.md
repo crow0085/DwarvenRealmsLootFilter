@@ -16,5 +16,3 @@ To clone and run
     npm run tauri dev # this is to run the app
     npm run tauri build # this is to build the binaries
 ```
-
-![Example]([[https://github.com/crow0085/WF-App/blob/main/github-images/mastery%20with%20icon.png](https://i.imgur.com/gE570XO.png)](https://i.imgur.com/gE570XO.png))
