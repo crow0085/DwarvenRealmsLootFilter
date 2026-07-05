@@ -90,7 +90,7 @@ interface Stat {
 }
 
 function App() {
-  const [stashes, setStashes] = useState([]);
+  //const [stashes, setStashes] = useState([]);
   const [inventory, setInventory] = useState<InventoryValue[]>([]);
   const [filterAmnt, setFilterAmnt] = useState("1");
   const [statFilter, setStatFilter] = useState<string[]>([]);
@@ -345,15 +345,13 @@ function ItemSlot(props: ItemSlotProps) {
         <img
           className="absolute inset-0 h-full w-full object-cover"
           src={
-            matched >= props.filterAmnt
-              ? "src/UI/pet-bg.PNG"
-              : "src/UI/normal-bg.PNG"
+            matched >= props.filterAmnt ? "/UI/pet-bg.PNG" : "/UI/normal-bg.PNG"
           }
           alt="background"
         />
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="src/UI/T_UI_Button_Frame_002.PNG"
+          src="/UI/T_UI_Button_Frame_002.PNG"
           alt="frame"
         />
 
@@ -518,23 +516,23 @@ function getImagePath(item: InventoryValue) {
 }
 
 const IMAGE_PATHS: Record<string, string> = {
-  Bracers: "src/UI/bracers_gold_2.PNG",
-  Chest: "src/UI/plate_chest_armor_5_-_Copy.PNG",
-  Pants: "src/UI/armor_pants_green_plate.PNG",
-  Boots: "src/UI/boots_armor_brown_1.PNG",
-  Gloves: "src/UI/armor_gloves_plate_blue.PNG",
-  Sword: "src/UI/dwarven_sword.PNG",
-  Bow: "src/UI/bow_stylized_icon_2.PNG",
-  Maul: "src/UI/weapons_maul.PNG",
-  Spear: "src/UI/weapon_spear_09.PNG",
-  Ring: "src/UI/grey_circle_jade_ring.PNG",
-  Relic: "src/UI/relic_shield_eye.PNG",
-  Magery: "src/UI/staff_1_march_2023_wand_3.PNG",
-  Fists: "src/UI/fists.png",
-  Helmet: "src/UI/armor_helmet_metaL_spange.PNG",
-  Amulet: "src/UI/red_amulet.PNG",
-  Scythe: "src/UI/scythe.png",
-  Axe: "src/UI/weapon_axe_6.PNG",
+  Bracers: "/UI/bracers_gold_2.PNG",
+  Chest: "/UI/plate_chest_armor_5_-_Copy.PNG",
+  Pants: "/UI/armor_pants_green_plate.PNG",
+  Boots: "/UI/boots_armor_brown_1.PNG",
+  Gloves: "/UI/armor_gloves_plate_blue.PNG",
+  Sword: "/UI/dwarven_sword.PNG",
+  Bow: "/UI/bow_stylized_icon_2.PNG",
+  Maul: "/UI/weapons_maul.PNG",
+  Spear: "/UI/weapon_spear_09.PNG",
+  Ring: "/UI/grey_circle_jade_ring.PNG",
+  Relic: "/UI/relic_shield_eye.PNG",
+  Magery: "/UI/staff_1_march_2023_wand_3.PNG",
+  Fists: "/UI/fists.png",
+  Helmet: "/UI/armor_helmet_metaL_spange.PNG",
+  Amulet: "/UI/red_amulet.PNG",
+  Scythe: "/UI/scythe.png",
+  Axe: "/UI/weapon_axe_6.PNG",
 };
 
 export default App;
