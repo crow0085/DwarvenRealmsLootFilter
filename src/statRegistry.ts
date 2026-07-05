@@ -595,6 +595,10 @@ export const STAT_REGISTRY = {
       "SpearCriticalChance%6",
       "SpearCriticalChance%",
       "SpearCritChance",
+      "SpearsCritcalChance%",
+      "SpearsCriticalChance%6",
+      "SpearsCriticalChance%",
+      "SpearsCritChance",
       "Damage.PoleArmCriticalChance%6", // PoleArm = Spear in game data
       "Damage.PoleArmCriticalChance%",
       "PoleArmCriticalChance%6",
