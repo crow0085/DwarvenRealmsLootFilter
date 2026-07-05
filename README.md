@@ -1,7 +1,19 @@
-# Tauri + React + Typescript
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+# DR Custom Loot Filter
+Custom loot filter since the in game one sucks.
+Load the .sav file not the ones with BU or WRL
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+
+## Deployment
+
+To clone and run 
+
+```bash
+    git clone https://github.com/crow0085/DwarvenRealmsLootFilter.git
+    cd into the folder
+    npm install
+    npm run tauri dev # this is to run the app
+    npm run tauri build # this is to build the binaries
+```
+
