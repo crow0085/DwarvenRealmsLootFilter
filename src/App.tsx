@@ -337,7 +337,7 @@ function ItemSlot(props: ItemSlotProps) {
 
     console.log(count);
     setMatched(count);
-  }, [props.statFilter, props.filterAmnt]);
+  }, [props.statFilter, props.filterAmnt, props.InventoryValue]);
 
   return (
     <div>
