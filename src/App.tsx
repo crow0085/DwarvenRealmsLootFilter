@@ -92,7 +92,7 @@ interface Stat {
 function App() {
   //const [stashes, setStashes] = useState([]);
   const [inventory, setInventory] = useState<InventoryValue[]>([]);
-  const [filterAmnt, setFilterAmnt] = useState("1");
+  // const [filterAmnt, setFilterAmnt] = useState("1");
   const [statFilter, setStatFilter] = useState<string[]>([]); // the stat patterns
   const [statList, setStatList] = useState<string[]>([]); // the stat names to display as selected
   const [search, setSearch] = useState("");
@@ -145,7 +145,7 @@ function App() {
     console.log(json);
   }
 
-  const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
+  // const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
 
   const addStatToFilter = (id: string, name: string) => {
     let curStatFilter = [...statFilter];
@@ -246,7 +246,7 @@ function App() {
             <StashTab
               InventoryValue={inventory}
               statFilter={statFilter}
-              filterAmnt={parseInt(filterAmnt, 10)}
+              // filterAmnt={parseInt(filterAmnt, 10)}
             />
 
             {/*Searchbar */}
@@ -323,7 +323,7 @@ function App() {
 interface StashTabProps {
   InventoryValue: InventoryValue[];
   statFilter: string[];
-  filterAmnt: number;
+  // filterAmnt: number;
 }
 function StashTab(props: StashTabProps) {
   return (
@@ -337,7 +337,7 @@ function StashTab(props: StashTabProps) {
               InventoryValue={item}
               Index={index}
               statFilter={props.statFilter}
-              filterAmnt={props.filterAmnt}
+              // filterAmnt={props.filterAmnt}
             />
           );
         })}
@@ -350,7 +350,7 @@ interface ItemSlotProps {
   InventoryValue: InventoryValue;
   Index: number;
   statFilter: string[];
-  filterAmnt: number;
+  // filterAmnt: number;
 }
 function ItemSlot(props: ItemSlotProps) {
   const [matched, setMatched] = useState(0);
@@ -408,7 +408,7 @@ function ItemSlot(props: ItemSlotProps) {
 
     console.log(count);
     setMatched(count);
-  }, [props.statFilter, props.filterAmnt, props.InventoryValue]);
+  }, [props.statFilter, props.InventoryValue]);
 
   const BG = {
     normal: "/UI/normal-bg.PNG",
