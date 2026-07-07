@@ -425,13 +425,25 @@ function ItemSlot(props: ItemSlotProps) {
     setMatched(count);
   }, [props.statFilter, props.filterAmnt, props.InventoryValue]);
 
+  const BG = {
+    normal: "/UI/normal-bg.PNG",
+    one: "/UI/magic-bg.PNG",
+    two: "/UI/unique-bg.PNG",
+    three: "/UI/flawless-bg.PNG",
+  };
   return (
     <div>
       <div className="relative h-12 w-12">
         <img
           className="absolute inset-0 h-full w-full object-cover"
           src={
-            matched >= props.filterAmnt ? "/UI/pet-bg.PNG" : "/UI/normal-bg.PNG"
+            matched >= 3
+              ? BG["three"]
+              : matched >= 2
+                ? BG["two"]
+                : matched >= 1
+                  ? BG["one"]
+                  : BG["normal"]
           }
           alt="background"
         />
