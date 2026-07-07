@@ -793,8 +793,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "dr-custom-lootfilter"
-version = "0.2.0"
+name = "dr_lootfilter_searchbar"
+version = "0.3.0"
 dependencies = [
  "serde",
  "serde_json",
