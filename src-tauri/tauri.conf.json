@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "dr-custom-lootfilter",
+  "productName": "dr_lootfilter_checkbox",
   "version": "0.3.0",
   "identifier": "com.crow0085.dr-custom-lootfilter",
   "build": {
