@@ -146,22 +146,7 @@ function App() {
   }
 
   const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
-  // const handleStatFilterChange = (e: any) => {
-  //   let curStatFilter = [...statFilter];
 
-  //   type StatKey = keyof typeof STAT_REGISTRY;
-  //   let stats = STAT_REGISTRY[e.target.id as StatKey];
-  //   stats.patterns.map((p) => {
-  //     if (curStatFilter.includes(p)) {
-  //       curStatFilter = curStatFilter.filter((c) => c !== p);
-  //     } else {
-  //       curStatFilter.push(p);
-  //     }
-  //   });
-
-  //   console.log(curStatFilter);
-  //   setStatFilter(curStatFilter);
-  // };
   const addStatToFilter = (id: string, name: string) => {
     let curStatFilter = [...statFilter];
     let curStatList = [...statList];
@@ -221,7 +206,7 @@ function App() {
           <div className="flex gap-x-5">
             <p className="text-white">Inventory Loaded</p>
             {/* Amount of stats to check for*/}
-            <div className="text-white flex gap-x-3">
+            {/*<div className="text-white flex gap-x-3">
               <p>Stats:</p>
               <label>
                 <input
@@ -253,7 +238,7 @@ function App() {
                 />{" "}
                 3
               </label>
-            </div>
+            </div>*/}
           </div>
 
           <div className="grid grid-flow-col auto-cols-max gap-4 items-start">
