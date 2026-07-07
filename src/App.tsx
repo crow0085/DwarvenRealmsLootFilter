@@ -143,7 +143,7 @@ function App() {
     console.log(json);
   }
 
-  const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
+  // const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
   const handleStatFilterChange = (e: any) => {
     let curStatFilter = [...statFilter];
 
@@ -177,7 +177,7 @@ function App() {
           <div className="flex gap-x-5">
             <p className="text-white">Inventory Loaded</p>
             {/* Amount of stats to check for*/}
-            <div className="text-white flex gap-x-3">
+            {/*<div className="text-white flex gap-x-3">
               <p>Stats:</p>
               <label>
                 <input
@@ -209,7 +209,7 @@ function App() {
                 />{" "}
                 3
               </label>
-            </div>
+            </div>*/}
           </div>
           {/* inventory tab */}
           <div className="flex gap-40">
@@ -339,13 +339,25 @@ function ItemSlot(props: ItemSlotProps) {
     setMatched(count);
   }, [props.statFilter, props.filterAmnt, props.InventoryValue]);
 
+  const BG = {
+    normal: "/UI/normal-bg.PNG",
+    one: "/UI/magic-bg.PNG",
+    two: "/UI/unique-bg.PNG",
+    three: "/UI/flawless-bg.PNG",
+  };
   return (
     <div>
       <div className="relative h-12 w-12">
         <img
           className="absolute inset-0 h-full w-full object-cover"
           src={
-            matched >= props.filterAmnt ? "/UI/pet-bg.PNG" : "/UI/normal-bg.PNG"
+            matched >= 3
+              ? BG["three"]
+              : matched >= 2
+                ? BG["two"]
+                : matched >= 1
+                  ? BG["one"]
+                  : BG["normal"]
           }
           alt="background"
         />
