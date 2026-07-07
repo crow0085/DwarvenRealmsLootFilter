@@ -5,7 +5,7 @@ Load the .sav file not the ones with BU or WRL
 
 
 
-## Deployment
+## Clone and Run
 
 To clone and run 
 
@@ -16,3 +16,7 @@ To clone and run
     npm run tauri dev # this is to run the app
     npm run tauri build # this is to build the binaries
 ```
+
+## Example
+Blue is 1 matched, yellow is 2, red is 3
+![Screenshot of filter](https://github.com/crow0085/DwarvenRealmsLootFilter/blob/main/example%20images/example%201.png)
