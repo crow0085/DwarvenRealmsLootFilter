@@ -93,7 +93,9 @@ function App() {
   //const [stashes, setStashes] = useState([]);
   const [inventory, setInventory] = useState<InventoryValue[]>([]);
   const [filterAmnt, setFilterAmnt] = useState("1");
-  const [statFilter, setStatFilter] = useState<string[]>([]);
+  const [statFilter, setStatFilter] = useState<string[]>([]); // the stat patterns
+  const [statList, setStatList] = useState<string[]>([]); // the stat names to display as selected
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (
@@ -160,6 +162,23 @@ function App() {
     console.log(curStatFilter);
     setStatFilter(curStatFilter);
   };
+  const addStatToFilter = (id: string, name: string) => {
+    let curStatFilter = [...statFilter];
+    let curStatList = [...statList];
+
+    type StatKey = keyof typeof STAT_REGISTRY;
+    let stats = STAT_REGISTRY[id as StatKey];
+    stats.patterns.map((p) => {
+      if (!curStatFilter.includes(p)) {
+        curStatFilter.push(p);
+      }
+    });
+    if (!curStatList.includes(name)) {
+      curStatList.push(name);
+    }
+    setStatFilter(curStatFilter);
+    setStatList(curStatList);
+  };
 
   return (
     <div className="min-h-screen bg-gray-800 p-5!">
@@ -211,16 +230,58 @@ function App() {
               </label>
             </div>
           </div>
-          {/* inventory tab */}
-          <div className="flex gap-40">
+
+          <div className="grid grid-flow-col auto-cols-max gap-4 items-start">
+            {/* inventory tab */}
             <StashTab
               InventoryValue={inventory}
               statFilter={statFilter}
               filterAmnt={parseInt(filterAmnt, 10)}
             />
 
+            {/*Searchbar */}
+            <div className="flex flex-col text-white">
+              <div>
+                <input
+                  type="text"
+                  placeholder="search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="border border-gray-500"
+                />
+              </div>
+              <div className="pt-5!">
+                {search && search !== "" && (
+                  <div className="flex flex-col gap-y-2">
+                    {Object.values(STAT_REGISTRY)
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .filter((i) =>
+                        i.name.toLowerCase().includes(search.toLowerCase()),
+                      )
+                      .map((stat) => (
+                        <p onClick={() => addStatToFilter(stat.id, stat.name)}>
+                          {stat.name}
+                        </p>
+                      ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/*currently selected stats */}
+            <div>
+              <p className="text-white font-bold">Selected Stats:</p>
+              {statList && statList != null && statList.length > 0 && (
+                <div className="text-white pt-5!">
+                  {statList.map((stat) => (
+                    <p>{stat}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Stat list filter */}
-            <div className="text-white p-5">
+            {/*<div className="text-white p-5">
               <div className="grid grid-flow-col grid-rows-25 gap-x-8 gap-y-3">
                 {Object.values(STAT_REGISTRY)
                   .sort((a, b) => a.name.localeCompare(b.name))
@@ -241,7 +302,7 @@ function App() {
                     </div>
                   ))}
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>
       )}
