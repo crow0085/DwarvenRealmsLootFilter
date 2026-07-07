@@ -146,22 +146,22 @@ function App() {
   }
 
   const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
-  const handleStatFilterChange = (e: any) => {
-    let curStatFilter = [...statFilter];
+  // const handleStatFilterChange = (e: any) => {
+  //   let curStatFilter = [...statFilter];
 
-    type StatKey = keyof typeof STAT_REGISTRY;
-    let stats = STAT_REGISTRY[e.target.id as StatKey];
-    stats.patterns.map((p) => {
-      if (curStatFilter.includes(p)) {
-        curStatFilter = curStatFilter.filter((c) => c !== p);
-      } else {
-        curStatFilter.push(p);
-      }
-    });
+  //   type StatKey = keyof typeof STAT_REGISTRY;
+  //   let stats = STAT_REGISTRY[e.target.id as StatKey];
+  //   stats.patterns.map((p) => {
+  //     if (curStatFilter.includes(p)) {
+  //       curStatFilter = curStatFilter.filter((c) => c !== p);
+  //     } else {
+  //       curStatFilter.push(p);
+  //     }
+  //   });
 
-    console.log(curStatFilter);
-    setStatFilter(curStatFilter);
-  };
+  //   console.log(curStatFilter);
+  //   setStatFilter(curStatFilter);
+  // };
   const addStatToFilter = (id: string, name: string) => {
     let curStatFilter = [...statFilter];
     let curStatList = [...statList];
@@ -175,6 +175,31 @@ function App() {
     });
     if (!curStatList.includes(name)) {
       curStatList.push(name);
+    }
+    setStatFilter(curStatFilter);
+    setStatList(curStatList);
+  };
+
+  const removeStatFromFilter = (name: string) => {
+    let curStatFilter = [...statFilter];
+    let curStatList = [...statList];
+
+    type StatKey = keyof typeof STAT_REGISTRY;
+    let id = "";
+    Object.values(STAT_REGISTRY).forEach((stat) => {
+      if (stat.name === name) {
+        id = stat.id;
+        return;
+      }
+    });
+    let stats = STAT_REGISTRY[id! as StatKey];
+    stats.patterns.map((p) => {
+      if (curStatFilter.includes(p)) {
+        curStatFilter = curStatFilter.filter((c) => c !== p);
+      }
+    });
+    if (curStatList.includes(name)) {
+      curStatList = curStatList.filter((c) => c !== name);
     }
     setStatFilter(curStatFilter);
     setStatList(curStatList);
@@ -274,7 +299,7 @@ function App() {
               {statList && statList != null && statList.length > 0 && (
                 <div className="text-white pt-5!">
                   {statList.map((stat) => (
-                    <p>{stat}</p>
+                    <p onClick={() => removeStatFromFilter(stat)}>{stat}</p>
                   ))}
                 </div>
               )}
