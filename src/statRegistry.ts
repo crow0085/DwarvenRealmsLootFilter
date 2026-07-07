@@ -719,6 +719,8 @@ export const STAT_REGISTRY = {
       "Damage.TwoHandedCriticalChance%",
       "TwoHandCritcalChance%6",
       "TwoHandCritcalChance%",
+      "TwoHandCriticalChance%6",
+      "TwoHandCriticalChance%",
       "TwoHandedCriticalChance%6",
       "TwoHandedCriticalChance%",
       "TwoHandedCriticalChance",
