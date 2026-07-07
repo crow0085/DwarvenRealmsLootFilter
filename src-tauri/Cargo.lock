@@ -793,7 +793,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "dr_lootfilter_checkbox"
+name = "dr-custom-lootfilter"
 version = "0.3.0"
 dependencies = [
  "serde",
