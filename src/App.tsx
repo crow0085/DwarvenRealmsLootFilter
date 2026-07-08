@@ -96,6 +96,7 @@ function App() {
   const [statFilter, setStatFilter] = useState<string[]>([]); // the stat patterns
   const [statList, setStatList] = useState<string[]>([]); // the stat names to display as selected
   const [search, setSearch] = useState("");
+  const [selectedSave, setSelectedSave] = useState(""); // the path to the save file to force reload
 
   useEffect(() => {
     if (
@@ -128,6 +129,8 @@ function App() {
 
     const response = await invoke<string>("read_save", { filePath: path });
     const json = await JSON.parse(response);
+
+    setSelectedSave(path);
 
     if (path.includes("WRL.sav")) handleStash(json);
     else handleInventory(json);
@@ -190,15 +193,33 @@ function App() {
     setStatList(curStatList);
   };
 
+  const ReloadSave = async () => {
+    if (selectedSave && selectedSave !== "") {
+      const response = await invoke<string>("read_save", {
+        filePath: selectedSave,
+      });
+      const json = await JSON.parse(response);
+      handleInventory(json);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-800 p-5!">
-      <div>
+      <div className="flex gap-x-2">
         <button
           className="text-white border border-gray-700 p-2! w-fit! h-10! hover:bg-gray-900 hover:text-blue-300  whitespace-nowrap"
           onClick={OpenSavePath}
         >
           Open DR Save
         </button>
+        {inventory && inventory.length > 0 && (
+          <button
+            className=" text-white border border-gray-700 p-2! w-fit! h-10! hover:bg-gray-900 hover:text-blue-300  whitespace-nowrap"
+            onClick={ReloadSave}
+          >
+            Reload
+          </button>
+        )}
       </div>
 
       {inventory && inventory.length > 0 && (
