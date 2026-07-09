@@ -148,8 +148,6 @@ function App() {
     console.log(json);
   }
 
-  // const handleFilterAmnt = (e: any) => setFilterAmnt(e.target.value);
-
   const addStatToFilter = (id: string, name: string) => {
     let curStatFilter = [...statFilter];
     let curStatList = [...statList];
@@ -275,7 +273,6 @@ function App() {
 interface StashTabProps {
   InventoryValue: InventoryValue[];
   statFilter: string[];
-  // filterAmnt: number;
 }
 function StashTab(props: StashTabProps) {
   return (
@@ -289,7 +286,6 @@ function StashTab(props: StashTabProps) {
               InventoryValue={item}
               Index={index}
               statFilter={props.statFilter}
-              // filterAmnt={props.filterAmnt}
             />
           );
         })}
@@ -302,7 +298,6 @@ interface ItemSlotProps {
   InventoryValue: InventoryValue;
   Index: number;
   statFilter: string[];
-  // filterAmnt: number;
 }
 function ItemSlot(props: ItemSlotProps) {
   const [matched, setMatched] = useState(0);
@@ -316,9 +311,6 @@ function ItemSlot(props: ItemSlotProps) {
         .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
         .Pool1_5_5BC4C3914F78865C44F3959F84179108_0.Array.Struct.value;
     for (const stat of pool) {
-      // console.log(
-      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 1 stat: ${stat.Struct.RowName_0.Name}`,
-      // );
       if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
         console.log("loop 1");
         count += 1;
@@ -332,9 +324,6 @@ function ItemSlot(props: ItemSlotProps) {
         .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
         .Pool2_7_C9D5DBAD46BD46143554DE8BA77CF417_0.Array.Struct.value;
     for (const stat of pool) {
-      // console.log(
-      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 2 stat: ${stat.Struct.RowName_0.Name}`,
-      // );
       if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
         console.log("loop 2");
         count += 1;
@@ -348,9 +337,6 @@ function ItemSlot(props: ItemSlotProps) {
         .AffixesPool_89_5A748ADA450AF2CA0408C286F360A594_0.Struct.Struct
         .Pool3_9_03E0D74D4259F96DFDD896BB62805708_0.Array.Struct.value;
     for (const stat of pool) {
-      // console.log(
-      //   `Item: ${props.InventoryValue.Struct.GeneratedName_57_58091AD4472F71E411A2C1AF2D320DDC_0.Str} | Stat Pool 3 stat: ${stat.Struct.RowName_0.Name}`,
-      // );
       if (props.statFilter.includes(stat.Struct.RowName_0.Name)) {
         console.log("loop 3");
         count += 1;
