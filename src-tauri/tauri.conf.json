@@ -13,7 +13,8 @@
     "windows": [
       {
         "title": "dr-custom-lootfilter",
-        "minWidth": 1500,
+        "width": 980,
+        "minWidth": 580,
         "minHeight": 900
       }
     ],

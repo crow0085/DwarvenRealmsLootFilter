@@ -2,7 +2,7 @@ import "./App.css";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { STAT_REGISTRY } from "./statRegistry";
+import { NEW_STAT_REGISTRY } from "./stats";
 
 export interface UnrealSaveRootPlayer {
   root: {
@@ -154,36 +154,26 @@ function App() {
     let curStatFilter = [...statFilter];
     let curStatList = [...statList];
 
-    type StatKey = keyof typeof STAT_REGISTRY;
-    let stats = STAT_REGISTRY[id as StatKey];
-    stats.patterns.map((p) => {
-      if (!curStatFilter.includes(p)) {
-        curStatFilter.push(p);
-      }
-    });
-    if (!curStatList.includes(name)) {
-      curStatList.push(name);
-    }
+    if (!curStatFilter.includes(id)) curStatFilter.push(id);
+    if (!curStatList.includes(name)) curStatList.push(name);
+
     setStatFilter(curStatFilter);
     setStatList(curStatList);
+
+    console.log("Stat FIlter", curStatFilter);
+    console.log("Stat List", curStatList);
   };
 
   const removeStatFromFilter = (name: string) => {
     let curStatFilter = [...statFilter];
     let curStatList = [...statList];
 
-    type StatKey = keyof typeof STAT_REGISTRY;
-    let id = "";
-    Object.values(STAT_REGISTRY).forEach((stat) => {
-      if (stat.name === name) {
-        id = stat.id;
-        return;
-      }
-    });
-    let stats = STAT_REGISTRY[id! as StatKey];
-    stats.patterns.map((p) => {
-      if (curStatFilter.includes(p)) {
-        curStatFilter = curStatFilter.filter((c) => c !== p);
+    Object.keys(NEW_STAT_REGISTRY).map((key) => {
+      const id = NEW_STAT_REGISTRY[key as keyof typeof NEW_STAT_REGISTRY].id;
+      const _name =
+        NEW_STAT_REGISTRY[key as keyof typeof NEW_STAT_REGISTRY].name;
+      if (name === _name && curStatFilter.includes(id)) {
+        curStatFilter = curStatFilter.filter((c) => c !== id);
       }
     });
     if (curStatList.includes(name)) {
@@ -191,6 +181,9 @@ function App() {
     }
     setStatFilter(curStatFilter);
     setStatList(curStatList);
+
+    console.log("Stat FIlter", curStatFilter);
+    console.log("Stat List", curStatList);
   };
 
   const ReloadSave = async () => {
@@ -226,49 +219,11 @@ function App() {
         <div>
           <div className="flex gap-x-5">
             <p className="text-white">Inventory Loaded</p>
-            {/* Amount of stats to check for*/}
-            {/*<div className="text-white flex gap-x-3">
-              <p>Stats:</p>
-              <label>
-                <input
-                  type="radio"
-                  name="amount"
-                  value="1"
-                  checked={filterAmnt === "1"}
-                  onChange={handleFilterAmnt}
-                />{" "}
-                1
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="amount"
-                  value="2"
-                  checked={filterAmnt === "2"}
-                  onChange={handleFilterAmnt}
-                />{" "}
-                2
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="amount"
-                  value="3"
-                  checked={filterAmnt === "3"}
-                  onChange={handleFilterAmnt}
-                />{" "}
-                3
-              </label>
-            </div>*/}
           </div>
 
           <div className="grid grid-flow-col auto-cols-max gap-4 items-start">
             {/* inventory tab */}
-            <StashTab
-              InventoryValue={inventory}
-              statFilter={statFilter}
-              // filterAmnt={parseInt(filterAmnt, 10)}
-            />
+            <StashTab InventoryValue={inventory} statFilter={statFilter} />
 
             {/*Searchbar */}
             <div className="flex flex-col text-white">
@@ -284,7 +239,7 @@ function App() {
               <div className="pt-5!">
                 {search && search !== "" && (
                   <div className="flex flex-col gap-y-2">
-                    {Object.values(STAT_REGISTRY)
+                    {Object.values(NEW_STAT_REGISTRY)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .filter((i) =>
                         i.name.toLowerCase().includes(search.toLowerCase()),
@@ -310,30 +265,6 @@ function App() {
                 </div>
               )}
             </div>
-
-            {/* Stat list filter */}
-            {/*<div className="text-white p-5">
-              <div className="grid grid-flow-col grid-rows-25 gap-x-8 gap-y-3">
-                {Object.values(STAT_REGISTRY)
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((stat) => (
-                    <div key={stat.id} className="flex items-center gap-x-2">
-                      <input
-                        type="checkbox"
-                        id={`${stat.id}`}
-                        className="rounded accent-blue-500"
-                        onChange={handleStatFilterChange}
-                      />
-                      <label
-                        htmlFor={`${stat.id}`}
-                        className="cursor-pointer select-none whitespace-nowrap"
-                      >
-                        {stat.name}
-                      </label>
-                    </div>
-                  ))}
-              </div>
-            </div>*/}
           </div>
         </div>
       )}
