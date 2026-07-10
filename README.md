@@ -2,8 +2,14 @@
 # DR Custom Loot Filter
 Custom loot filter since the in game one sucks.
 Load the .sav file not the ones with BU or WRL
-default save path for windows: AppData\Local\ProjectAlpha\Saved\SaveGames
-default save path for linux: SteamLibrary/steamapps/compatdata/2015240/pfx/drive_c/users/steamuser/AppData/Local/ProjectAlpha/Saved/SaveGames/
+# default save path for windows:
+```default save path for windows:
+    AppData/Local/ProjectAlpha/Saved/SaveGames
+```
+# default save path for linux:
+```
+    SteamLibrary/steamapps/compatdata/2015240/pfx/drive_c/users/steamuser/AppData/Local/ProjectAlpha/Saved/SaveGames/
+```
 
 
 
